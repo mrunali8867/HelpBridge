@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpBridge - Community Volunteer Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #059669;
+            --accent-color: #f97316;
+            --bg-light: #ffffff;
+            --bg-dark: #111827;
+            --card-light: #f3f4f6;
+            --card-dark: #1f2937;
+            --text-light: #111827;
+            --text-dark: #f3f4f6;
+            --border-light: #e5e7eb;
+            --border-dark: #374151;
+            --gray-600: #4b5563;
+            --gray-400: #9ca3af;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        nav {
+            border-bottom: 1px solid var(--border-light);
+            background-color: var(--bg-light);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        body.dark-mode nav {
+            border-bottom-color: var(--border-dark);
+            background-color: var(--card-dark);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2563eb, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 20px;
+            display: none;
+        }
+
+        @media (min-width: 640px) {
+            .logo-text {
+                display: inline;
+            }
+        }
+
+        .nav-menu {
+            display: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .nav-menu {
+                display: flex;
+            }
+        }
+
+        .nav-menu button {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu button:hover {
+            color: var(--primary-color);
+        }
+
+        .theme-toggle, .mobile-menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover, .mobile-menu-btn:hover {
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        body.dark-mode .theme-toggle:hover, 
+        body.dark-mode .mobile-menu-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 0.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        body.dark-mode .mobile-menu {
+            border-top-color: var(--border-dark);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu button {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            text-align: left;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu button:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .main-content {
+            padding: 3rem 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            space-y: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #2563eb, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (min-width: 640px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        body.dark-mode .hero p {
+            color: var(--gray-400);
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+            }
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        body.dark-mode .btn-secondary {
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        body.dark-mode .stat-card {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 24px;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .stat-label {
+            color: var(--gray-400);
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+        }
+
+        /* Programs Section */
+        .programs-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .program-card {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: box-shadow 0.3s;
+        }
+
+        body.dark-mode .program-card {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .program-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .program-card h3 {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .program-card p {
+            color: var(--gray-600);
+        }
+
+        body.dark-mode .program-card p {
+            color: var(--gray-400);
+        }
+
+        /* Modal/Form Styles */
+        .form-container {
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            color: var(--primary-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+
+        .back-button:hover {
+            color: var(--primary-dark);
+        }
+
+        .form-card {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        body.dark-mode .form-card {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .form-card h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        body.dark-mode input, 
+        body.dark-mode select, 
+        body.dark-mode textarea {
+            border-color: var(--border-dark);
+            background-color: #374151;
+            color: var(--text-dark);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            resize: none;
+            min-height: 100px;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-buttons button {
+            flex: 1;
+        }
+
+        .form-note {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        body.dark-mode .form-note {
+            color: var(--gray-400);
+        }
+
+        /* Analytics Styles */
+        .analytics-container {
+            space-y: 2rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        body.dark-mode .metric-card {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .metric-card p:first-child {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .metric-card p:first-child {
+            color: var(--gray-400);
+        }
+
+        .metric-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        .metric-growth {
+            font-size: 0.75rem;
+            color: #16a34a;
+            margin-top: 0.5rem;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        body.dark-mode .progress-container {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .progress-item {
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background-color: var(--border-light);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        body.dark-mode .progress-bar {
+            background-color: var(--border-dark);
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+            border-radius: 999px;
+        }
+
+        .progress-fill.blue {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+        }
+
+        .progress-fill.green {
+            background: linear-gradient(90deg, #059669, #10b981);
+        }
+
+        .progress-fill.emerald {
+            background: linear-gradient(90deg, #047857, #10b981);
+        }
+
+        .progress-fill.cyan {
+            background: linear-gradient(90deg, #0891b2, #06b6d4);
+        }
+
+        /* Activity Feed */
+        .activity-container {
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        body.dark-mode .activity-container {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .activity-item {
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+        }
+
+        body.dark-mode .activity-item {
+            color: var(--gray-400);
+        }
+
+        /* Chatbot Styles */
+        .chat-fab {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #2563eb, #059669);
+            color: white;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 40;
+        }
+
+        .chat-fab:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transform: scale(1.1);
+        }
+
+        .chat-fab.hidden {
+            display: none;
+        }
+
+        .chat-widget {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 384px;
+            max-width: calc(100vw - 32px);
+            height: 384px;
+            background-color: var(--card-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        body.dark-mode .chat-widget {
+            background-color: var(--card-dark);
+            border-color: var(--border-dark);
+        }
+
+        .chat-widget.hidden {
+            display: none;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #2563eb, #059669);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            font-weight: 700;
+        }
+
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .chat-header button:hover {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 4px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .chat-message {
+            display: flex;
+            margin-bottom: 0.75rem;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+        }
+
+        .chat-bubble.user {
+            background-color: #2563eb;
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-bubble.bot {
+            background-color: var(--border-light);
+            border-bottom-left-radius: 0;
+        }
+
+        body.dark-mode .chat-bubble.bot {
+            background-color: #374151;
+        }
+
+        .chat-input-form {
+            border-top: 1px solid var(--border-light);
+            padding: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        body.dark-mode .chat-input-form {
+            border-top-color: var(--border-dark);
+        }
+
+        .chat-input-form input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .chat-input-form button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input-form button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .chat-tips {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            padding: 0 1rem 0.5rem;
+            text-align: center;
+        }
+
+        body.dark-mode .chat-tips {
+            color: var(--gray-400);
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 1.875rem;
+            }
+
+            .chat-widget {
+                width: calc(100vw - 32px);
+                height: 500px;
+            }
+        }
+
+        /* Scrollbar */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 3px;
+        }
+
+        body.dark-mode .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border-dark);
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-600);
+        }
+
+        body.dark-mode .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-box">HB</div>
+                <span class="logo-text">HelpBridge</span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <button onclick="showHome()">Home</button>
+                <button onclick="showVolunteerForm()">Join</button>
+                <button onclick="showAnalytics()">Impact</button>
+                <button onclick="showChatbot()">Help</button>
+                <button class="theme-toggle" onclick="toggleDarkMode()">
+                    <span id="themeIcon">🌙</span>
+                </button>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex: 1; justify-content: flex-end;">
+                <button class="theme-toggle" onclick="toggleDarkMode()" id="mobileTheme">
+                    <span id="mobileThemeIcon">🌙</span>
+                </button>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span id="menuIcon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <button onclick="showHome(); toggleMobileMenu();">Home</button>
+            <button onclick="showVolunteerForm(); toggleMobileMenu();">Join as Volunteer</button>
+            <button onclick="showAnalytics(); toggleMobileMenu();">Our Impact</button>
+            <button onclick="showChatbot(); toggleMobileMenu();">Get Help</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Home Section -->
+        <div id="homeSection">
+            <!-- Hero -->
+            <div class="hero">
+                <h1>Bridge the Gap Between Compassion & Action</h1>
+                <p>Join HelpBridge and connect with volunteers ready to make a real difference. Together, we transform communities.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showVolunteerForm()">Become a Volunteer</button>
+                    <button class="btn btn-secondary" onclick="showAnalytics()">View Our Impact</button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #2563eb, #3b82f6);">👥</div>
+                    <div class="stat-label">Active Volunteers</div>
+                    <div class="stat-value">347</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #059669, #10b981);">🎯</div>
+                    <div class="stat-label">Active Projects</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #0891b2, #06b6d4);">📈</div>
+                    <div class="stat-label">People Helped</div>
+                    <div class="stat-value">15K+</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f97316, #fb923c);">🏆</div>
+                    <div class="stat-label">Impact Hours</div>
+                    <div class="stat-value">2.8K</div>
+                </div>
+            </div>
+
+            <!-- Programs Section -->
+            <div class="programs-section">
+                <h2 class="section-title">Our Programs</h2>
+                <div class="programs-grid">
+                    <div class="program-card">
+                        <h3>Community Education</h3>
+                        <p>Empower through knowledge. We teach skills that change lives.</p>
+                    </div>
+                    <div class="program-card">
+                        <h3>Food Security</h3>
+                        <p>Ensure no one goes hungry. Support local food banks and farms.</p>
+                    </div>
+                    <div class="program-card">
+                        <h3>Environmental Care</h3>
+                        <p>Protect our planet. Join tree planting and cleanup drives.</p>
+                    </div>
+                    <div class="program-card">
+                        <h3>Skill Sharing</h3>
+                        <p>Learn from experts. Free workshops in tech, arts, and trades.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Volunteer Form Section -->
+        <div id="volunteerSection" class="hidden">
+            <button class="back-button" onclick="showHome()">← Back</button>
+            <div class="form-container">
+                <div class="form-card">
+                    <h2>Join Our Volunteer Network</h2>
+                    <form id="volunteerForm" onsubmit="handleVolunteerSubmit(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <input type="text" placeholder="Full Name" id="volName" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Email Address" id="volEmail" required>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <input type="tel" placeholder="Phone Number" id="volPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <select id="volAvailability" required>
+                                    <option>Weekends</option>
+                                    <option>Weekdays</option>
+                                    <option>Flexible</option>
+                                    <option>Evenings</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Skills (e.g., Teaching, Coding, Design)" id="volSkills">
+                        </div>
+
+                        <div class="form-group">
+                            <textarea placeholder="Tell us why you want to volunteer... (optional)" id="volMessage"></textarea>
+                        </div>
+
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">Join as Volunteer</button>
+                            <button type="button" class="btn btn-secondary" onclick="showHome()">Cancel</button>
+                        </div>
+
+                        <p class="form-note">✓ Your data is saved locally and securely</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analyticsSection" class="hidden">
+            <button class="back-button" onclick="showHome()">← Back</button>
+            <h2 class="section-title">Our Impact Dashboard</h2>
+
+            <!-- Metrics Grid -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <p>Total Volunteers</p>
+                    <div class="metric-value">347</div>
+                    <div class="metric-growth">📈 +23% this month</div>
+                </div>
+                <div class="metric-card">
+                    <p>Active Projects</p>
+                    <div class="metric-value">12</div>
+                    <div class="metric-growth">📈 +23% this month</div>
+                </div>
+                <div class="metric-card">
+                    <p>People Helped</p>
+                    <div class="metric-value">15,420</div>
+                    <div class="metric-growth">📈 +23% this month</div>
+                </div>
+                <div class="metric-card">
+                    <p>Hours Contributed</p>
+                    <div class="metric-value">2,847</div>
+                    <div class="metric-growth">📈 +23% this month</div>
+                </div>
+            </div>
+
+            <!-- Program Distribution -->
+            <div class="progress-container">
+                <h3 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Impact by Program</h3>
+                
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span>Community Education</span>
+                        <span>35%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill blue" style="width: 35%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span>Food Security</span>
+                        <span>28%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" style="width: 28%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span>Environmental Care</span>
+                        <span>22%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill emerald" style="width: 22%;"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span>Skill Sharing</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill cyan" style="width: 15%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-container">
+                <h3 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Recent Activity</h3>
+                <div class="activity-item">🌱 18 volunteers planted 200 trees at Green Park</div>
+                <div class="activity-item">📚 12 students completed coding workshop</div>
+                <div class="activity-item">🍲 480 meals distributed at community center</div>
+                <div class="activity-item">🎨 Art workshop reached 95 kids</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot FAB (Floating Action Button) -->
+    <button class="chat-fab" id="chatFab" onclick="showChatbot()"></button>
+
+    <!-- Chatbot Widget -->
+    <div class="chat-widget hidden" id="chatWidget">
+        <div class="chat-header">
+            <h3>HelpBridge Support</h3>
+            <button onclick="hideChatbot()">✕</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <form class="chat-input-form" onsubmit="handleChatSubmit(event)">
+            <input type="text" id="chatInput" placeholder="Ask something...">
+            <button type="submit">Send</button>
+        </form>
+        <div class="chat-tips">Try: "programs", "volunteer", "impact", "contact"</div>
+    </div>
+
+    <script>
+        // State Management
+        const state = {
+            darkMode: false,
+            chatMessages: []
+        };
+
+        // Chatbot Responses
+        const chatbotResponses = {
+            'hello': 'Hello! Welcome to HelpBridge. How can we help you?',
+            'volunteer': 'You can join our volunteer program by filling out the Volunteer Form. It takes just 2 minutes!',
+            'programs': 'We run several programs: Community Education, Food Bank, Environmental Care, and Skill Sharing.',
+            'donate': 'We accept donations through our secure platform. Every dollar makes a difference!',
+            'contact': 'You can reach us at hello@helpbridge.org or call +91-800-BRIDGE-1',
+            'impact': 'Last month we helped 5,000+ people and engaged 200+ volunteers.',
+            'default': 'I\'m not sure about that. Try asking about our programs, volunteering, donations, or contact info!'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDarkMode();
+            initializeChat();
+            loadVolunteersFromLocalStorage();
+        });
+
+        // Dark Mode
+        function toggleDarkMode() {
+            state.darkMode = !state.darkMode;
+            document.body.classList.toggle('dark-mode');
+            const icon = state.darkMode ? '☀️' : '🌙';
+            document.getElementById('themeIcon').textContent = icon;
+            document.getElementById('mobileThemeIcon').textContent = icon;
+            localStorage.setItem('helpbridgeDarkMode', state.darkMode);
+        }
+
+        function initializeDarkMode() {
+            const saved = localStorage.getItem('helpbridgeDarkMode');
+            if (saved === 'true') {
+                state.darkMode = true;
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').textContent = '☀️';
+                document.getElementById('mobileThemeIcon').textContent = '☀️';
+            }
+        }
+
+        // Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function showHome() {
+            document.getElementById('homeSection').classList.remove('hidden');
+            document.getElementById('volunteerSection').classList.add('hidden');
+            document.getElementById('analyticsSection').classList.add('hidden');
+            hideChatbot();
+            document.getElementById('mobileMenu').classList.remove('active');
+        }
+
+        function showVolunteerForm() {
+            document.getElementById('homeSection').classList.add('hidden');
+            document.getElementById('volunteerSection').classList.remove('hidden');
+            document.getElementById('analyticsSection').classList.add('hidden');
+            document.getElementById('mobileMenu').classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        function showAnalytics() {
+            document.getElementById('homeSection').classList.add('hidden');
+            document.getElementById('volunteerSection').classList.add('hidden');
+            document.getElementById('analyticsSection').classList.remove('hidden');
+            document.getElementById('mobileMenu').classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Volunteer Form Handler
+        function handleVolunteerSubmit(event) {
+            event.preventDefault();
+
+            const formData = {
+                id: Date.now(),
+                name: document.getElementById('volName').value,
+                email: document.getElementById('volEmail').value,
+                phone: document.getElementById('volPhone').value,
+                skills: document.getElementById('volSkills').value,
+                availability: document.getElementById('volAvailability').value,
+                message: document.getElementById('volMessage').value,
+                joinDate: new Date().toLocaleDateString()
+            };
+
+            // Save to LocalStorage
+            const existingVolunteers = JSON.parse(localStorage.getItem('helpbridgeVolunteers') || '[]');
+            existingVolunteers.push(formData);
+            localStorage.setItem('helpbridgeVolunteers', JSON.stringify(existingVolunteers));
+
+            // Show confirmation
+            alert(`Thank you, ${formData.name}! You're now part of HelpBridge. We'll contact you soon! 🎉`);
+
+            // Reset form
+            document.getElementById('volunteerForm').reset();
+            showHome();
+        }
+
+        function loadVolunteersFromLocalStorage() {
+            const saved = localStorage.getItem('helpbridgeVolunteers');
+            if (saved) {
+                const volunteers = JSON.parse(saved);
+                console.log(`Found ${volunteers.length} existing volunteers`);
+            }
+        }
+
+        // Chatbot Functions
+        function initializeChat() {
+            state.chatMessages = [
+                { type: 'bot', text: 'Hi! 👋 I\'m HelpBridge Assistant. How can I help you today?' }
+            ];
+            renderChatMessages();
+        }
+
+        function showChatbot() {
+            document.getElementById('chatWidget').classList.remove('hidden');
+            document.getElementById('chatFab').classList.add('hidden');
+            document.getElementById('chatInput').focus();
+        }
+
+        function hideChatbot() {
+            document.getElementById('chatWidget').classList.add('hidden');
+            document.getElementById('chatFab').classList.remove('hidden');
+        }
+
+        function handleChatSubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById('chatInput').value.trim();
+            
+            if (!input) return;
+
+            // Add user message
+            state.chatMessages.push({ type: 'user', text: input });
+            renderChatMessages();
+            document.getElementById('chatInput').value = '';
+
+            // Generate bot response
+            const lowerInput = input.toLowerCase();
+            let response = chatbotResponses['default'];
+
+            Object.keys(chatbotResponses).forEach(key => {
+                if (lowerInput.includes(key)) {
+                    response = chatbotResponses[key];
+                }
+            });
+
+            // Add bot response after delay
+            setTimeout(() => {
+                state.chatMessages.push({ type: 'bot', text: response });
+                renderChatMessages();
+            }, 500);
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = '';
+
+            state.chatMessages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${msg.type}`;
+
+                const bubble = document.createElement('div');
+                bubble.className = `chat-bubble ${msg.type}`;
+                bubble.textContent = msg.text;
+
+                messageDiv.appendChild(bubble);
+                container.appendChild(messageDiv);
+            });
+
+            // Auto-scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>
